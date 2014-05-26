@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <script src='closure-library/closure/goog/base.js'></script>
+    <script src='notepad.js'></script>
+  </head>
+  <body>
+    <div id='notes'>
+    </div>
+    <script>
+    function main() {
+      var noteData = [
+        {'title': 'Note1', 'content': 'Content of Note 1'},
+        {'title': 'Note2', 'content': 'Content of Note 2'},
+        {'title': 'Note3', 'content': 'Content of Note 3'},
+        {'title': 'Note4', 'content': 'Content of Note 4'}
+      ];
+      var noteListElement = document.getElementById('notes');
+      var notes = notepad.makeNotes(noteData, noteListElement);
+    }
+    main();
+    </script>
+  </body>
+</html>
