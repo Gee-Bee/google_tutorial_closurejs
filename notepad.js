@@ -25,24 +25,31 @@ notepad.Note.prototype.makeNoteDom = function() {
 
   goog.dom.appendChild(this.parent, newNote);
 
-  goog.events.listen(this.contentElement, goog.events.EventType.CLICK, this.openEditor(this));
+  goog.events.listen(this.contentElement, goog.events.EventType.CLICK, this.openEditor, false, this);
+  goog.events.listen(saveBtn, goog.events.EventType.CLICK, this.save, false, this);
 
-  return new goog.ui.Zippy(this.headerElement, this.contentElement);
+  this.zippy = new goog.ui.Zippy(this.headerElement, this.contentElement);
 };
 
-notepad.Note.prototype.openEditor = function(_this) {
-  return function(event) {
-    var elt = event.target;
-    var content = goog.dom.getTextContent(elt);
+notepad.Note.prototype.openEditor = function(event) {
+  var elt = event.target;
+  var content = goog.dom.getTextContent(elt);
 
-    // var editorContainer = goog.dom.getNextElementSibling(elt);
-    // var editor = goog.dom.getFirstElementChild(editorContainer);
+  this.editorElement.innerHTML = content;
 
-    _this.editorElement.innerHTML = content;
+  elt.style.display = 'none';
+  this.editorContainer.style.display = 'inline';
+};
 
-    elt.style.display = 'none';
-    _this.editorContainer.style.display = 'inline';
-  };
+notepad.Note.prototype.save = function(event) {
+  this.content = this.editorElement.value;
+  this.closeEditor();
+};
+
+notepad.Note.prototype.closeEditor = function() {
+  this.contentElement.innerHTML = this.content;
+  this.contentElement.style.display = 'inline';
+  this.editorContainer.style.display = 'none';
 };
 
 notepad.makeNotes = function(data, noteContainer) {
