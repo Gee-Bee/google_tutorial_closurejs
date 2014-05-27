@@ -25,22 +25,24 @@ notepad.Note.prototype.makeNoteDom = function() {
 
   goog.dom.appendChild(this.parent, newNote);
 
-  goog.events.listen(this.contentElement, goog.events.EventType.CLICK, this.openEditor);
+  goog.events.listen(this.contentElement, goog.events.EventType.CLICK, this.openEditor(this));
 
   return new goog.ui.Zippy(this.headerElement, this.contentElement);
 };
 
-notepad.Note.prototype.openEditor = function(event) {
-  var elt = event.target;
-  var content = goog.dom.getTextContent(elt);
+notepad.Note.prototype.openEditor = function(_this) {
+  return function(event) {
+    var elt = event.target;
+    var content = goog.dom.getTextContent(elt);
 
-  var editorContainer = goog.dom.getNextElementSibling(elt);
-  var editor = goog.dom.getFirstElementChild(editorContainer);
+    // var editorContainer = goog.dom.getNextElementSibling(elt);
+    // var editor = goog.dom.getFirstElementChild(editorContainer);
 
-  editor.innerHTML = content;
+    _this.editorElement.innerHTML = content;
 
-  elt.style.display = 'none';
-  editorContainer.style.display = 'inline';
+    elt.style.display = 'none';
+    _this.editorContainer.style.display = 'inline';
+  };
 };
 
 notepad.makeNotes = function(data, noteContainer) {
